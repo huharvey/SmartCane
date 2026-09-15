@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>智能拐杖监控</title>
+  <link rel="stylesheet" href="/assets/app.css">
+</head>
+<body>
+  <main class="wrap">
+    <header class="page-head">
+      <div>
+        <p class="eyebrow">SMARTCANE · 公网只读监护</p>
+        <h1>智能拐杖监控</h1>
+        <p id="subtitle" class="muted">正在连接云端状态服务…</p>
+      </div>
+      <div class="badges" aria-label="连接状态">
+        <span id="device-badge" class="badge waiting"><i></i>设备状态未知</span>
+        <span id="broker-badge" class="badge waiting"><i></i>公网服务连接中</span>
+      </div>
+    </header>
+
+    <section id="alarm-card" class="card alarm-card status-normal" aria-live="polite">
+      <div>
+        <span class="label">告警状态</span>
+        <div id="alarm" class="v">等待数据</div>
+      </div>
+      <div class="alarm-meta">
+        <div><span>信号</span><strong id="rssi">--</strong></div>
+        <div><span>运行时间</span><strong id="uptime">--</strong></div>
+        <div><span>最后更新</span><strong id="updated">--</strong></div>
+      </div>
+    </section>
+
+    <section class="card camera-card">
+      <div class="camera-placeholder" role="img" aria-label="摄像头仅支持近场访问">
+        <div class="camera-icon">▣</div>
+        <div>
+          <strong>摄像头仅支持近场访问</strong>
+          <p>请连接智能拐杖本地 Wi-Fi，再打开本地设备页面查看实时画面。公网监护页不会连接 ESP32 的 81 端口。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid metrics" aria-label="实时监护指标">
+      <article class="card metric"><span class="label">心率</span><div class="v"><span id="heart-rate">--</span> <small>bpm</small></div><p id="heart-note" class="muted">等待手指信号</p></article>
+      <article class="card metric"><span class="label">血氧</span><div class="v"><span id="spo2">--</span> <small>%</small></div><p id="spo2-note" class="muted">等待有效测量</p></article>
+      <article class="card metric"><span class="label">PPG 信号质量</span><div id="quality" class="v">--</div><p id="quality-note" class="muted">传感器状态未知</p></article>
+      <article id="rhythm-card" class="card metric"><span class="label">节律筛查</span><div id="rhythm" class="v compact">--</div><p id="rhythm-note" class="muted">筛查结果不等同于医疗诊断</p></article>
+      <article class="card metric"><span class="label">前方距离</span><div class="v"><span id="distance">--</span> <small>cm</small></div><p id="distance-note" class="muted">等待超声波数据</p></article>
+      <article class="card metric"><span class="label">环境光照</span><div class="v"><span id="lux">--</span> <small>lx</small></div><p id="lux-note" class="muted">等待光照传感器数据</p></article>
+    </section>
+
+    <section class="grid two-columns">
+      <article class="card">
+        <div class="card-head"><h2>位置状态</h2><span id="gps-dot" class="dot waiting"></span></div>
+        <div id="location-status" class="v compact">等待 GPS 定位</div>
+        <div class="coordinate-grid">
+          <div><span>纬度</span><strong id="lat">--</strong></div>
+          <div><span>经度</span><strong id="lon">--</strong></div>
+          <div><span>卫星</span><strong id="satellites">0</strong></div>
+          <div><span>位置来源</span><strong id="gps-source">--</strong></div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-head"><h2>设备健康状态</h2></div>
+        <div class="health-list">
+          <div><span>IMU 姿态传感器</span><strong id="imu-health" class="health waiting">等待</strong></div>
+          <div><span>MAX30102</span><strong id="max-health" class="health waiting">等待</strong></div>
+          <div><span>超声波距离传感器</span><strong id="sonar-health" class="health waiting">等待</strong></div>
+          <div><span>BH1750 光照传感器</span><strong id="light-health" class="health waiting">等待</strong></div>
+          <div><span>GPS 定位</span><strong id="gps-health" class="health waiting">等待</strong></div>
+          <div><span>公网 MQTT</span><strong id="mqtt-health" class="health waiting">等待</strong></div>
+          <div><span>累计接收消息</span><strong id="message-count">0</strong></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="card events-card">
+      <div class="card-head"><h2>事件提示</h2><span id="event-count" class="count-pill">0</span></div>
+      <div id="event-list" class="event-list"><div class="empty-state">暂无 SOS、跌倒或节律筛查事件</div></div>
+    </section>
+
+    <section class="card map-card">
+      <div class="card-head"><h2>位置地图</h2><span class="muted">固定比例预览</span></div>
+      <p id="map-note" class="muted">等待 GPS 定位；获得位置后显示高德静态地图。</p>
+      <div class="map-frame">
+        <div id="map-placeholder" class="map-placeholder">尚无可显示的位置</div>
+        <img id="amap-static-map" class="static-map" alt="高德位置地图" hidden>
+      </div>
+      <a id="map-link" class="map-link disabled" target="_blank" rel="noopener noreferrer">在高德地图中查看详细位置 →</a>
+    </section>
+
+    <footer><span>只读远程监护 · 不提供 SOS、解除告警或照明远程控制</span><span id="clock"></span></footer>
+  </main>
+  <script src="/assets/app.js" defer></script>
+</body>
+</html>

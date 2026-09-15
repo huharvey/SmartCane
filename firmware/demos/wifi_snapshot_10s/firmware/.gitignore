@@ -1,0 +1,2 @@
+# 本机 Wi-Fi 凭据含明文密码，不应提交到公开仓库。
+include/DemoSecrets.h

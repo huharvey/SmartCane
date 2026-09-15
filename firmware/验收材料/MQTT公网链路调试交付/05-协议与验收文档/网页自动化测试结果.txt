@@ -1,0 +1,15 @@
+执行日期：2026-08-31
+执行目录：交付包/02-远程监护网页源码
+执行命令：python -m unittest discover -s tests -v
+
+PASS  test_device_becomes_online_with_presence_and_fresh_telemetry
+PASS  test_event_is_added_to_timeline
+PASS  test_invalid_json_is_rejected
+PASS  test_vitals_and_gps_are_unwrapped
+PASS  test_basic_auth_protects_dashboard_and_api
+PASS  test_health_endpoint_remains_available_for_hosting_probe
+PASS  test_state_api_and_security_headers
+
+Ran 7 tests in 0.031s
+OK
+

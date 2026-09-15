@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>SmartCane 远程守护</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+</head>
+<body>
+  <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
+  <main class="shell">
+    <header class="topbar">
+      <div>
+        <div class="eyebrow">SMARTCANE · REMOTE CARE</div>
+        <h1>远程守护中心</h1>
+        <p id="subtitle">设备 {{ device_id }} · 正在建立实时连接</p>
+      </div>
+      <div class="connection-stack">
+        <div id="device-badge" class="badge waiting"><span></span>设备状态未知</div>
+        <div id="broker-badge" class="badge waiting"><span></span>公网服务连接中</div>
+      </div>
+    </header>
+
+    <section id="alarm-panel" class="alarm-panel normal">
+      <div>
+        <div class="section-kicker">当前状态</div>
+        <div id="alarm-value" class="alarm-value">等待数据</div>
+      </div>
+      <div class="alarm-meta">
+        <div><span>信号</span><strong id="rssi-value">--</strong></div>
+        <div><span>运行时间</span><strong id="uptime-value">--</strong></div>
+        <div><span>最后更新</span><strong id="updated-value">--</strong></div>
+      </div>
+    </section>
+
+    <section class="metric-grid">
+      <article class="metric-card primary">
+        <div class="metric-icon">♥</div><div class="metric-label">心率</div>
+        <div class="metric-number"><strong id="heart-rate">--</strong><span>bpm</span></div>
+        <div id="heart-note" class="metric-note">等待手指信号</div>
+      </article>
+      <article class="metric-card cyan">
+        <div class="metric-icon">O₂</div><div class="metric-label">血氧</div>
+        <div class="metric-number"><strong id="spo2">--</strong><span>%</span></div>
+        <div id="spo2-note" class="metric-note">等待有效测量</div>
+      </article>
+      <article class="metric-card violet">
+        <div class="metric-icon">≈</div><div class="metric-label">PPG 信号质量</div>
+        <div class="metric-number"><strong id="quality">--</strong><span>%</span></div>
+        <div id="quality-note" class="metric-note">传感器状态未知</div>
+      </article>
+      <article class="metric-card amber">
+        <div class="metric-icon">⌁</div><div class="metric-label">节律筛查</div>
+        <div class="metric-number compact"><strong id="rhythm">--</strong></div>
+        <div id="rhythm-note" class="metric-note">非医疗诊断</div>
+      </article>
+    </section>
+
+    <section class="content-grid">
+      <article class="panel location-panel">
+        <div class="panel-head"><div><div class="section-kicker">LOCATION</div><h2>位置状态</h2></div><div id="gps-dot" class="dot waiting"></div></div>
+        <div id="location-status" class="location-status">等待 GPS 定位</div>
+        <div class="coordinate-grid"><div><span>纬度</span><strong id="lat">--</strong></div><div><span>经度</span><strong id="lon">--</strong></div><div><span>卫星</span><strong id="satellites">0</strong></div><div><span>来源</span><strong id="gps-source">--</strong></div></div>
+        <a id="map-link" class="map-link disabled" target="_blank" rel="noopener noreferrer">在地图中查看位置 →</a>
+      </article>
+
+      <article class="panel health-panel">
+        <div class="panel-head"><div><div class="section-kicker">SYSTEM HEALTH</div><h2>设备健康</h2></div></div>
+        <div class="health-list">
+          <div><span>IMU 姿态传感器</span><strong id="imu-health" class="health waiting">等待</strong></div>
+          <div><span>MAX30102</span><strong id="max-health" class="health waiting">等待</strong></div>
+          <div><span>公网 MQTT</span><strong id="mqtt-health" class="health waiting">等待</strong></div>
+          <div><span>累计接收消息</span><strong id="message-count">0</strong></div>
+        </div>
+      </article>
+
+      <article class="panel events-panel">
+        <div class="panel-head"><div><div class="section-kicker">EVENT TIMELINE</div><h2>远程事件</h2></div><span id="event-count" class="count-pill">0</span></div>
+        <div id="event-list" class="event-list"><div class="empty-state">尚未收到 SOS 或跌倒事件</div></div>
+      </article>
+    </section>
+
+    <footer><span>只读远程监护 · 不包含远程控制</span><span id="clock"></span></footer>
+  </main>
+  <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+</body>
+</html>
+

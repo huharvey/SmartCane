@@ -1,0 +1,7 @@
+# Python 解释器缓存和上位机运行时抓拍，不纳入源码交付。
+__pycache__/
+*.py[cod]
+captures/
+imu_captures/
+ppg_captures/
+logs/

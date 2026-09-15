@@ -1,0 +1,12 @@
+services:
+  dashboard:
+    build: .
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      WEB_HOST: 0.0.0.0
+      WEB_PORT: 8080
+      DASHBOARD_AUTH_REQUIRED: "true"
+    ports:
+      - "127.0.0.1:8080:8080"

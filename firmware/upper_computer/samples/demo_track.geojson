@@ -1,0 +1,19 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {"name": "上位机导入测试路线"},
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [104.0648, 30.5718],
+          [104.0657, 30.5724],
+          [104.0668, 30.5728],
+          [104.0679, 30.5734],
+          [104.0690, 30.5730]
+        ]
+      }
+    }
+  ]
+}

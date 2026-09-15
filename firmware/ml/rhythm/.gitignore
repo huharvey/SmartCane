@@ -1,0 +1,11 @@
+.venv/
+data/raw/*
+!data/raw/.gitkeep
+artifacts/*.csv
+artifacts/*.json
+artifacts/*.svg
+artifacts/*.h
+artifacts/*.md
+__pycache__/
+*.pyc
+

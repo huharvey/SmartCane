@@ -1,0 +1,4 @@
+# 上位机依赖：Qt 界面、串口通信和 Wi-Fi HTTP/MJPEG。
+PyQt5>=5.15,<6
+pyserial>=3.5,<4
+requests>=2.31,<3

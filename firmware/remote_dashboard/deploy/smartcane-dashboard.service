@@ -1,0 +1,21 @@
+[Unit]
+Description=SmartCane read-only remote dashboard
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=smartcane
+Group=smartcane
+WorkingDirectory=/opt/smartcane/remote_dashboard
+EnvironmentFile=/etc/smartcane-dashboard.env
+ExecStart=/opt/smartcane/remote_dashboard/.venv/bin/python /opt/smartcane/remote_dashboard/app.py
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+
+[Install]
+WantedBy=multi-user.target
